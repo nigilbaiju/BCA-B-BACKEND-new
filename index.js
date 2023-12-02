@@ -1,7 +1,7 @@
 const express=require("express");
 const cors=require("cors")
 
-const studmodel = require("./model/student");
+const studmodel = require("./model/cerdetails");
 
 const app=new express();
 
@@ -44,6 +44,21 @@ app.put('/sedit/:id',async(request,response)=>{
 })
 
 
-app.listen(3005,(request,response)=>{
-    console.log("Port is running in 3005")
+//For saving certificatedetails
+app.post('/certnew',upload.single('certphoto'),async(request,response)=>{
+const {sid,qualification} =request.body
+const newdata = new certmodel({
+    sid,
+    qualification,
+    certphoto:{
+        data:request.file.buffer,
+        contentType:request.file.mimetype,
+    }
+})
+await newdata.save();
+}
+)
+
+app.listen(4005,(request,response)=>{
+    console.log("Port is running in 4005")
 })
